@@ -13,6 +13,8 @@ go get -u github.com/ixugo/gofcm
 
 ## 通过测试用例
 
+![image-20210526204814544](http://img.golang.space/shot-1622033294800.png)
+
 测试文件中有 9 个测试函数，前 8 个用于通过接口测试。
 需要更改 TestMain 函数中的参数 AppId，bizId，secretKey
 
