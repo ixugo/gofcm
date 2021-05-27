@@ -20,9 +20,9 @@ import (
 )
 
 type Engine struct {
-	AppId     string `json:"appId,omitempty"`      // 应用标识
-	BizId     string `json:"bizId,omitempty"`      // 游戏备案识别码
-	SecretKey string `json:"secret_key,omitempty"` // 用户秘钥
+	appId     string // 应用标识
+	bizId     string // 游戏备案识别码
+	secretKey string // 用户秘钥
 	client    *http.Client
 	keys      []string
 	aes       cipher.AEAD
@@ -46,9 +46,9 @@ func New(appId, bizId, secretKey string) *Engine {
 	}
 
 	return &Engine{
-		AppId:     appId,
-		BizId:     bizId,
-		SecretKey: secretKey,
+		appId:     appId,
+		bizId:     bizId,
+		secretKey: secretKey,
 		client:    &c,
 		keys:      []string{"appId", "bizId", "timestamps"},
 		aes:       aead,
@@ -64,8 +64,8 @@ const (
 var errParam = errors.New("请求参数有误")
 
 // Check 实名认证接口
-func (e *Engine) Check(r CheckReqBody) (*CheckRespBody, error) {
-	return e.check(check, r)
+func (e *Engine) Check(c CheckReqBody) (*CheckRespBody, error) {
+	return e.check(check, c)
 }
 
 func (e *Engine) check(uri string, c CheckReqBody) (*CheckRespBody, error) {
@@ -186,7 +186,7 @@ func (e *Engine) getSign(h http.Header, b string, query map[string]string) strin
 
 	sort.Strings(keys)
 
-	result := e.SecretKey
+	result := e.secretKey
 	for _, v := range keys {
 		// 文档里写 k-v ，实际是 kv
 		result += v + h.Get(v)
@@ -194,14 +194,14 @@ func (e *Engine) getSign(h http.Header, b string, query map[string]string) strin
 	result += b
 
 	hash := sha256.New()
-	hash.Write([]byte(result))
+	_, _ = hash.Write([]byte(result))
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
 func (e *Engine) setHeader(h *http.Header) {
 	h.Add("Content-Type", "application/json; charset=utf-8")
-	h.Add("appId", e.AppId)
-	h.Add("bizId", e.BizId)
+	h.Add("appId", e.appId)
+	h.Add("bizId", e.bizId)
 	h.Add("timestamps", strconv.FormatInt(time.Now().Unix()*1000, 10))
 }
 

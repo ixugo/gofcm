@@ -15,10 +15,12 @@ type CheckRespBody struct {
 }
 
 type checkRespBody struct {
-	Result struct {
-		Status int    `json:"status,omitempty"` // 0:认证成功; 1: 认证中; 2:认证失败;
-		Pi     string `json:"pi,omitempty"`     // 用户唯一标识
-	} `json:"result,omitempty"`
+	Result checkRespBodyResult `json:"result,omitempty"`
+}
+
+type checkRespBodyResult struct {
+	Status int    `json:"status,omitempty"` // 0:认证成功; 1: 认证中; 2:认证失败;
+	Pi     string `json:"pi,omitempty"`     // 用户唯一标识
 }
 
 type LoginoutReqBody struct {
@@ -42,9 +44,11 @@ type LoginoutRespBody struct {
 }
 
 type loginoutRespBody struct {
-	Result []struct {
-		No     int    `json:"no,omitempty"`     // 条目编码
-		Status int    `json:"status,omitempty"` // 0:认证成功; 1: 认证中; 2:认证失败;
-		Pi     string `json:"pi,omitempty"`     // 用户唯一标识
-	} `json:"result,omitempty"`
+	Result loginoutRespBodyResult `json:"result,omitempty"`
+}
+
+type loginoutRespBodyResult struct {
+	No     int    `json:"no,omitempty"`     // 条目编码
+	Status int    `json:"status,omitempty"` // 0:认证成功; 1: 认证中; 2:认证失败;
+	Pi     string `json:"pi,omitempty"`     // 用户唯一标识
 }

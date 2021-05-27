@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-var e *Engine
-
 const (
 	testCheck    = "https://wlc.nppa.gov.cn/test/authentication/check/%s"
 	testQuery    = "https://wlc.nppa.gov.cn/test/authentication/query/%s"
@@ -21,12 +19,15 @@ var code = []string{
 	"sKFMbR", "N3bAKP", "nz324r", "DpSFTj",
 }
 
-func TestMain(t *testing.M) {
+var e *Engine
+
+func TestMain(m *testing.M) {
 	appId := "6e1645a413f0437a96abab8f46d3aebd"
 	bizId := "1101999999"
 	secretKey := "0f9193177fb67f9b7fc385a0fa7bc4b1"
 	e = New(appId, bizId, secretKey)
-	os.Exit(t.Run())
+
+	os.Exit(m.Run())
 }
 
 // TestCheck1 测试1:实名认证结果返回“认证成功”
