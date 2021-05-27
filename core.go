@@ -237,3 +237,44 @@ func (e *Engine) get(uri string, query map[string]string, h http.Header) (*http.
 	}
 	return e.client.Do(r)
 }
+
+// GetCNErrMsg 获取中文错误消息，仅包含 check 与 query 业务异常
+func (e *Engine) GetCNErrMsg(state int) string {
+	switch state {
+	case 0:
+		return "请求成功"
+	case 1001:
+		return "系统错误"
+	case 1002:
+		return "接口请求的资源不存在"
+	case 1003:
+		return "接口请求方式错误"
+	case 1004:
+		return "接口请求核心参数缺失"
+	case 1005:
+		return "接口请求IP地址非法"
+	case 1006:
+		return "接口请求超出流量限制"
+	case 1007:
+		return "接口请求过期"
+	case 1008:
+		return "接口请求方身份非法"
+	case 1009:
+		return "接口请求方权限未启用"
+	case 1010:
+		return "接口请求方无该接口权限"
+	case 1011:
+		return "接口请求方身份核验错误"
+	case 1012:
+		return "接口请求报文核验失败"
+	case 2001:
+		return "身份证号格式校验失败"
+	case 2002:
+		return "实名认证条目已达上限"
+	case 2003:
+		return "无该编码提交的实名认证记录"
+	case 2004:
+		return "编码已经被占用"
+	}
+	return strconv.Itoa(state)
+}
